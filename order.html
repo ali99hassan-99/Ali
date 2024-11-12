@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلب المنتج</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>طلب المنتج</h1>
+        <nav>
+            <a href="index.html">الرئيسية</a>
+            <a href="products.html">المنتجات</a>
+            <a href="contact.html">تواصل معنا</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="order-form">
+            <form action="/submit_order" method="post">
+                <div class="form-group">
+                    <label for="customer_name">اسم العميل:</label>
+                    <input type="text" id="customer_name" name="customer_name" required placeholder="أدخل اسمك">
+                </div>
+
+                <div class="form-group">
+                    <label for="product_name">اسم المنتج:</label>
+                    <input type="text" id="product_name" name="product_name" required readonly placeholder="اسم المنتج" >
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">الكمية:</label>
+                    <input type="number" id="quantity" name="quantity" min="1" required value="1" oninput="updateTotal()" placeholder="أدخل الكمية">
+                </div>
+
+                <div class="form-group">
+                    <label for="price">السعر:</label>
+                    <input type="text" id="price" name="price" required readonly placeholder="السعر" >
+                </div>
+
+                <div class="form-group">
+                    <label for="total">المجموع:</label>
+                    <input type="text" id="total" name="total" required readonly placeholder="المجموع" >
+                </div>
+
+                <button type="submit" class="submit-btn">اطلب الآن</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>جميع الحقوق محفوظة © 2024</p>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get('product');
+        const productPrice = urlParams.get('price');
+
+        if (productName && productPrice) {
+            document.getElementById('product_name').value = productName;
+            document.getElementById('price').value = productPrice;
+            updateTotal();
+        } else {
+            alert('لا توجد بيانات منتج في الرابط!');
+        }
+
+        function updateTotal() {
+            const quantity = document.getElementById('quantity').value;
+            const price = document.getElementById('price').value;
+            const total = quantity * price;
+            const formattedTotal = parseFloat(total).toFixed(2);
+            document.getElementById('total').value = formattedTotal;
+        }
+    </script>
+</body>
+</html>
